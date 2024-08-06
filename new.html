@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Playing</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            transition: background-image 0.5s; /* Smooth transition for background change */
+        }
+
+        .container {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .piano-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .piano-keys-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        .piano-keys {
+            width: 5rem;
+            cursor: pointer;
+            position: relative;
+            height: 20rem;
+            border-radius: 10px;
+            border: 1px solid #000;
+            transition: background-image 0.3s; /* Smooth transition for key background change */
+        }
+
+        .white-key {
+            background-color: white;
+        }
+
+        .black-key {
+            width: 2rem;
+            height: 13rem;
+            border-radius: 5px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            background-color: black;
+            z-index: 2;
+            margin: 0 -20px 0 -20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="piano-container">
+            <ul class="piano-keys-list">
+                <li class="piano-keys white-key" data-note="01"></li>
+                <li class="piano-keys black-key" data-note="02"></li>
+                <li class="piano-keys white-key" data-note="03"></li>
+                <li class="piano-keys black-key" data-note="04"></li>
+                <li class="piano-keys white-key" data-note="05"></li>
+                <li class="piano-keys black-key" data-note="06"></li>
+                <li class="piano-keys white-key" data-note="07"></li>
+                <li class="piano-keys white-key" data-note="08"></li>
+                <li class="piano-keys black-key" data-note="09"></li>
+                <li class="piano-keys white-key" data-note="10"></li>
+                <li class="piano-keys black-key" data-note="11"></li>
+                <li class="piano-keys white-key" data-note="12"></li>
+                <li class="piano-keys white-key" data-note="13"></li>
+                <li class="piano-keys black-key" data-note="14"></li>
+                <li class="piano-keys white-key" data-note="15"></li>
+                <li class="piano-keys black-key" data-note="16"></li>
+                <li class="piano-keys white-key" data-note="17"></li>
+                <li class="piano-keys black-key" data-note="18"></li>
+                <li class="piano-keys white-key" data-note="19"></li>
+                <li class="piano-keys white-key" data-note="20"></li>
+                <li class="piano-keys black-key" data-note="21"></li>
+                <li class="piano-keys white-key" data-note="22"></li>
+                <li class="piano-keys black-key" data-note="23"></li>
+                <li class="piano-keys white-key" data-note="24"></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const keys = document.querySelectorAll('.piano-keys');
+
+            keys.forEach(key => {
+                key.addEventListener('click', (e) => {
+                    playSound(e.target.dataset.note);
+                    changeColor();
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                const keyMap = {
+                    'a': '01', 's': '02', 'd': '03', 'f': '04', 'g': '05',
+                    'h': '06', 'j': '07', 'k': '08', 'l': '09', 'z': '10',
+                    'x': '11', 'c': '12', 'v': '13', 'b': '14', 'n': '15',
+                    'm': '16', 'q': '17', 'w': '18', 'e': '19', 'r': '20',
+                    't': '21', 'y': '22', 'u': '23', 'i': '24'
+                };
+                const note = keyMap[e.key];
+                if (note) {
+                    playSound(note);
+                    changeColor();
+                }
+            });
+
+            function playSound(note) {
+                const audio = new Audio(`./KeySounds/piano-mp3_${note}.mp3`);
+                audio.play();
+            }
+
+            function randomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function changeColor() {
+                // Random colors for the body background
+                const randomBodyColor1 = `rgba(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`;
+                const randomBodyColor2 = `rgba(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`;
+                document.body.style.backgroundImage = `radial-gradient(circle, ${randomBodyColor1}, ${randomBodyColor2})`;
+
+                // Random colors for the keys
+                keys.forEach(key => {
+                    const randomKeyColor1 = `rgba(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`;
+                    const randomKeyColor2 = `rgba(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)}, 0.5)`;
+                    key.style.backgroundImage = `radial-gradient(circle, ${randomKeyColor1}, ${randomKeyColor2})`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
